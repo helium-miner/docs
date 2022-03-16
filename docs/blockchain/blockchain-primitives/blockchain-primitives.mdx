@@ -9,57 +9,49 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <img className="docsheader" src={useBaseUrl("img/blockchain/primitives.png")} />
 
-# Helium Blockchain Primitives
+# Helium 区块链原语
 
-Below are some of the larger components and concepts of the Helium blockchain.
+以下是 Helium 区块链的一些较大的组件和概念。
 
-### Blocks
+### 区块（Block）
 
-Blocks are used to record the most recent set of transactions in the Helium
-blockchain. Blocks are mined based on time, as defined in the `block_time` chain
-variable. The current target block time is `60000` milliseconds (or 60 seconds).
-During any given epoch, the most recent block consists of:
+区块用于记录 Helium 区块链中的最新交易集。区块是根据时间挖掘的，
+如`block_time`链变量中定义的那样。当前目标块时间为`60000`毫秒（或 60 秒）。
+在任何给定的时期，最近的区块包括：
 
-- Block Version
-- Block Height
-- Previous Block Hash
-- Transactions (stored as a Merkle hash)
-- Threshold signature from the current consensus group
+- 区块版本
+- 区块高度
+- 上一个区块哈希
+- 交易（存储为 Merkle 哈希）
+- 当前共识组的阈值签名
 
-The easiest way to see the blocks being mined is with the
-[Helium Blockchain Explorer](https://explorer.helium.com/). The
-[Helium Mobile App](https://helium.com/app) also shows block details. Developers
-can also use the Helium blockchain API to access all blockchain transactions and
-metadata.
+查看正在开采的区块的最简单方法是使用 [Helium Blockchain Explorer](https://explorer.helium.com/)。
+[Helium Mobile App](https://helium.com/app)还显示区块详细信息。
+开发人员还可以使用 Helium 区块链 API 访问所有区块链交易和元数据。
 
-### Epochs
+### 纪元（Epochs）
 
-An `epoch` is the target time period for which a given group of Validators is
-elected to serve as the consensus group. The target time for an epoch is
-currently `30 blocks`, as defined in the `election_interval` chain variable.
-Approximately every 30 blocks mined marks the passing of an epoch, after which a
-new group of Validators is elected to form the next consensus group. Mining rewards
-are distributed per epoch (as opposed to per block in most blockchain-based
-systems). At the conclusion of each epoch, the consensus group will distribute
-all the $HNT produced in that block via the `rewards` transaction.
+一个`nepoch`是指定的验证者组被选为共识组的目标时间段。
+一个纪元的目标时间当前是，如链变量`30 blocks`中所定义。
+`election_interval`大约每挖出 30 个区块就标志着一个纪元的结束，
+之后选出一组新的验证者组成下一个共识组。
+挖矿奖励是按纪元分配的（与大多数基于区块链的系统中的每个块相反）。
+在每个纪元结束时，共识组将通过`rewards`交易分配该区块中产生的所有 $HNT。
 
-### Transactions
 
-The Helium blockchain currently has 36 native transaction types. Some appear in
-nearly every block mined while others were created to be used only once and will
-never be heard from again.
+### 交易（Transactions）
 
-You can see various transaction types in action using the
-[Helium Blockchain Explorer](https://explorer.helium.com/). At a low level,
-transactions are represented as
-[Protocol Buffers](https://developers.google.com/protocol-buffers), aka
-"protobuf". To sign a transaction, other signature fields (if present) are
-cleared and the serialized protobuf is signed by the actor.
-[The protobuf definitions are available here](https://github.com/helium/proto).
+Helium 区块链目前有 36 种原生交易类型。有些几乎出现在每个开采的区块中，
+而另一些则被创建为只使用一次，再也不会被见到。
 
-All transactions occur on-chain, and all transactions require Helium Data
-Credits to be submitted and confirmed. The following is a list of the supported
-transactions:
+您可以使用 [Helium Blockchain Explorer](https://explorer.helium.com/) 查看各种实际交易类型 。
+在低级别，事务表示为 [Protocol Buffers](https://developers.google.com/protocol-buffers)，又名“protobuf”。
+要签署交易，其他签名字段（如果存在）将被清除，并且序列化的 protobuf 由参与者签署。
+[protobuf 定义](https://github.com/helium/proto)可在此处获得。
+
+
+所有交易都发生在链上，所有交易都需要提交和确认 Helium Data Credits。
+以下是支持的交易列表：
 
 - `add gateway` - Add a new gateway to the Helium Network. For the purposes of
   transactions, a “gateway” is the term for a Helium-compliant Miner that is
@@ -110,54 +102,42 @@ transactions:
 - `transfer validator` - Transfer a staked Validator to a new owner or a new Validator.
 - `unstake validator` - Unstake a previously staked Validator.
 
-**Extended Reading on Transactions**
+**交易扩展阅读**
 
-- [Helium Blockchain Core on GitHub](https://github.com/helium/blockchain-core)
-- [Transaction protobuf definitions on GitHub](https://github.com/helium/proto)
+- [GitHub 上的 Helium 区块链核心代码](https://github.com/helium/blockchain-core)
+- [GitHub 上的交易 protobuf 定义](https://github.com/helium/proto)
 
-### Chain Variables
+### 链变量（Chain Variables）
 
-Chain Variables, often referred to as `chain vars`, are a series of
-configuration settings for the Helium blockchain. Chain Variables can be used to
-change things like target block time, target epoch time, the minimum number of
-targets in a POC Challenge, and much more. Chain Variables can be altered by
-submitting a transaction containing the chain variable to be changed, its new
-value, and a signature of the chain variable master key.
+链变量，通常称为`chain vars`，是 Helium 区块链的一系列配置设置。链变量可用于更改目标块时间(target block time)、目标纪元时间(target epoch time)、POC 挑战中目标的最小数量等。可以通过提交包含要更改的链变量、其新值和链变量主密钥的签名的交易来更改链变量。
 
-A full list of chain vars and their current values
-[can be found here](https://helium.plus/chain-vars).
+可以在此处找到完整的链变量列表及其当前值：[链变量](https://helium.plus/chain-vars)。
 
-### Accounts, Wallets, and Keys
+### 账户、钱包和密钥（Accounts, Wallets, and Keys）
 
-The Helium blockchain uses an account-based system for wallets and balances
-(similar to Ethereum and others) as opposed to a UTXO-based ledger like Bitcoin
-blockchain. Users have several options for creating Helium wallets and managing
-their private keys:
+Helium 区块链使用基于账户的钱包和余额系统（类似于以太坊和其他），
+而不是像比特币区块链这样基于 UTXO 的账本。
+用户有多种选择来创建 Helium 钱包和管理他们的私钥：
 
-- If you’re using the [Helium Mobile Wallet](https://helium.com/app) (iOS,
-  Android), your private key is encrypted locally (and can be recreated on
-  another mobile device using the 12 word passphrase generated when your wallet
-  was first created);
-- Using the [Helium CLI Wallet](https://github.com/helium/helium-wallet-rs),
-  users are responsible for creating, storing, and securing a wallet’s private
-  key and associated passphrase;
+- 如果您使用的是[Helium Mobile Wallet](https://helium.com/app)（iOS、Android），
+  您的私钥在本地加密（并且可以在另一台移动设备上重新创建首次创建钱包时生成的 12 字密码）；
+- 使用[Helium CLI Wallet](https://github.com/helium/helium-wallet-rs)，
+  用户负责创建、存储和保护钱包的私钥和相关密码；
 
-Both the Helium Mobile Wallet and the CLI Wallet create and use keys based on
-the [ed25519 public key signature system](https://ed25519.cr.yp.to/). The CLI
-can also support NIST p-256 keys. And the Helium blockchain supports both key
-types.
+Helium 移动钱包和 CLI 钱包都基于[ed25519 公钥签名系统](https://ed25519.cr.yp.to/)创建和使用密钥。
+CLI 还可以支持 NIST p-256 密钥。Helium 区块链支持这两种密钥类型。
 
-To learn more about existing wallet solutions, check out our
-[section on wallets](/wallets).
+要了解有关现有的钱包解决方案的更多信息，请查看我们的[钱包部分](/wallets)。
 
-### Validators 
+### 验证器（Validators） 
 
-Introduced in [HIP25](https://github.com/helium/HIP/blob/master/0025-validators.md), and officially [deployed to Mainnet on July 7, 2021](https://dewialliance.medium.com/validators-are-live-on-the-helium-network-fcf549a5e182), Validators are cloud-based nodes responsible
-for processing blocks and managing the blockchain consensus group. In return for securing the blockchain, Validators earn the 6% of HNT allocated 
-to the consensus group reward. To operate a Validator, one must stake 10,000 HNT.  
+在 [HIP25](https://github.com/helium/HIP/blob/master/0025-validators.md) 中引入，
+并于 2021 年 7 月 7 日正式部署到主网，验证器是基于云的节点，负责处理块和管理区块链共识组。
+作为保护区块链的回报，验证者获得分配给共识组奖励的 6% 的 HNT。要操作验证者，必须质押 10,000 HNT。
 
-* [Validators on the Helium Blockchain Explorer](https://explorer.helium.com/validators)
-* [Deploy a Validator](/mine-hnt/validators)
+* [Helium Blockchain Explorer 上的验证器](https://explorer.helium.com/validators)
+* [部署验证器](/mine-hnt/validators)
+
 
 
 
